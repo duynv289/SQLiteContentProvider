@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:weightSum="5"
+    android:layout_marginTop="@dimen/dp_5">
+    <ImageView
+        android:id="@+id/image_profile"
+        android:layout_margin="@dimen/dp_5"
+        android:src="@drawable/ic_account_circle_black_32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="ContentDescription" />
+    <LinearLayout
+        android:layout_toRightOf="@id/image_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/text_name"
+            android:textSize="@dimen/sp_20"
+            android:text="@string/name"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textSize="@dimen/sp_20"
+            android:id="@+id/text_phone"
+            android:text="@string/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <ImageButton
+        android:layout_alignParentRight="true"
+        android:id="@+id/button_call"
+        android:background="@null"
+        android:src="@drawable/ic_call_black_32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="ContentDescription"/>
+</RelativeLayout>
