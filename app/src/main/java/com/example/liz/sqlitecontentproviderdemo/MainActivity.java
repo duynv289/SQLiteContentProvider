@@ -21,11 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    private List<Contacts> mArrContacts;
+    private List<Contact> mContact;
     private RecyclerView mRecyclerView;
-    private ContactsAdapter mContactsAdapter;
-
+    private ContactAdapter mContactAdapter;
+    private static final String TITLE_TEL = "tel:";
 
     private static final int REQUEST_CODE = 1;
 
@@ -36,28 +35,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecyclerView = findViewById(R.id.recycler_view);
-        mArrContacts = new ArrayList<>();
+        mContact = new ArrayList<>();
         //check permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE);
         } else {
             readContacts();
         }
-        mContactsAdapter = new ContactsAdapter(mArrContacts);
+        mContactAdapter = new ContactAdapter(mContact);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(mContactsAdapter);
+        mRecyclerView.setAdapter(mContactAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mContactsAdapter.OnItemClickListener(new ContactsAdapter.OnItemClickListener() {
+        mContactAdapter.OnItemClickListener(new ContactAdapter.OnItemClickListener() {
             @Override
-            public void OnItemClick(List<Contacts> contacts, int position) {
-                Log.e("adapter", "OK");
-                String phone = contacts.get(position).getPhoneNumber();
-                String uri = "tel:" + phone.trim();
+            public void OnItemClick(List<Contact> contacts, int position) {
+                String phone = contacts.get(position).getmPhoneNumber();
+                String uri = TITLE_TEL + phone.trim();
                 Intent intent = new Intent(Intent.ACTION_CALL);
                 intent.setData(Uri.parse(uri));
                 if (ActivityCompat.checkSelfPermission(getApplicationContext()
@@ -82,16 +80,13 @@ public class MainActivity extends AppCompatActivity {
                         c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 String phone = c.getString(
                         c.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                mArrContacts.add(new Contacts(name,phone));
+                mContact.add(new Contact(name,phone));
             }
         }
         if (c != null) {
             c.close();
         }
     }
-
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED){
@@ -100,7 +95,4 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
-
-
-
 }
